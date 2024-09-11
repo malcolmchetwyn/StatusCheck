@@ -1,0 +1,329 @@
+<!-- 
+Hello. This is the Status Check app you can use.
+I built it for myself becasue I don't have time to type something out. Feel free to use it.
+Author: Malcolm 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Status Check - Vitae Cognoscere</title>
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/css/main.css">
+      <link rel="preload" href="/static/fonts/TopSecretStamp.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+      
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="/static/js/main.js"></script>
+      
+   </head>
+   <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+         <div class="container" style="max-width: 1200px;">
+            <a class="navbar-brand" href="#">
+            <img src="/static/img/SpyTribe_logo.png" width="140" alt="Logo" class="d-inline-block align-top">
+            </a>
+            <!-- Navbar Toggler (Button to toggle on smaller screens) -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navbar Links (Collapsible) -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+               <ul class="navbar-nav ml-auto">
+                  <li class="nav-item active">
+                     <a class="nav-link" href="#">Status Check <span class="sr-only">(current)</span></a>
+                  </li>
+                  
+                     <li class="nav-item">
+                         <a class="nav-link" href="#">AI Summarise</a>
+                     </li>
+                    <!-- <li class="nav-item">
+                         <a class="nav-link" href="#">Reports</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="#">Settings</a>
+                     </li>
+                     -->
+               </ul>
+            </div>
+         </div>
+      </nav>
+      <div class="container mt-5">
+         <h2>Status Check for <span id="selected-date">Today</span></h2>
+         <!-- Date Picker and Go Button -->
+         <div class="row mb-4">
+            <div class="col-12 col-md-6">
+               <div class="input-group mals">
+                  <input type="date" id="date-picker" class="form-control">
+                  <div class="input-group-append">
+                     <button class="btn btn-primary" onclick="loadDataForDate()">Go</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Progress Bar -->
+         <div class="progress mb-4">
+            <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%"></div>
+         </div>
+         <!-- Accordion for sections -->
+         <div id="accordion">
+            <!-- Wake Up Section -->
+            <div class="card">
+               <div class="card-header" id="headingWakeUp">
+                  <h5 class="mb-0">
+                     <button class="btn btn-link" data-toggle="collapse" data-target="#wakeUp" aria-expanded="true" aria-controls="wakeUp">
+                     Wake Up
+                     </button>
+                  </h5>
+               </div>
+               <div id="wakeUp" class="collapse show" aria-labelledby="headingWakeUp" data-parent="#accordion">
+                  <div class="card-body">
+                     <div class="form-group">
+                        <label for="wake_up_mental">Mental Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="wake_up_mental" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('wake_up_mental')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="wake_up_emotional">Emotional Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="wake_up_emotional" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('wake_up_emotional')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="wake_up_physical">Physical Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="wake_up_physical" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('wake_up_physical')">🎤</span>
+                        </div>
+                     </div>
+                     <button class="btn btn-primary mt-3" onclick="submitSection('wakeUp')">Save</button>
+                  </div>
+               </div>
+            </div>
+            <!-- Post Breakfast Section -->
+            <div class="card">
+               <div class="card-header" id="headingPostBreakfast">
+                  <h5 class="mb-0">
+                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#postBreakfast" aria-expanded="false" aria-controls="postBreakfast">
+                     Post Breakfast
+                     </button>
+                  </h5>
+               </div>
+               <div id="postBreakfast" class="collapse" aria-labelledby="headingPostBreakfast" data-parent="#accordion">
+                  <div class="card-body">
+                     <div class="form-group">
+                        <label for="post_breakfast_mental">Mental Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_breakfast_mental" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_breakfast_mental')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="post_breakfast_emotional">Emotional Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_breakfast_emotional" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_breakfast_emotional')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="post_breakfast_physical">Physical Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_breakfast_physical" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_breakfast_physical')">🎤</span>
+                        </div>
+                     </div>
+                     <!-- Additional Field -->
+                     <div class="form-group">
+                        <label for="post_breakfast_extra">What did I eat:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_breakfast_extra" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_breakfast_extra')">🎤</span>
+                        </div>
+                     </div>
+                     <button class="btn btn-primary mt-3" onclick="submitSection('postBreakfast')">Save</button>
+                  </div>
+               </div>
+            </div>
+            <!-- Post Lunch Section -->
+            <div class="card">
+               <div class="card-header" id="headingPostLunch">
+                  <h5 class="mb-0">
+                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#postLunch" aria-expanded="false" aria-controls="postLunch">
+                     Post Lunch
+                     </button>
+                  </h5>
+               </div>
+               <div id="postLunch" class="collapse" aria-labelledby="headingPostLunch" data-parent="#accordion">
+                  <div class="card-body">
+                     <div class="form-group">
+                        <label for="post_lunch_mental">Mental Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_lunch_mental" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_lunch_mental')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="post_lunch_emotional">Emotional Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_lunch_emotional" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_lunch_emotional')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="post_lunch_physical">Physical Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_lunch_physical" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_lunch_physical')">🎤</span>
+                        </div>
+                     </div>
+                     <!-- Additional Field -->
+                     <div class="form-group">
+                        <label for="post_lunch_extra">What did I eat:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_lunch_extra" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_lunch_extra')">🎤</span>
+                        </div>
+                     </div>
+                     <button class="btn btn-primary mt-3" onclick="submitSection('postLunch')">Save</button>
+                  </div>
+               </div>
+            </div>
+            <!-- Post Dinner Section -->
+            <div class="card">
+               <div class="card-header" id="headingPostDinner">
+                  <h5 class="mb-0">
+                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#postDinner" aria-expanded="false" aria-controls="postDinner">
+                     Post Dinner
+                     </button>
+                  </h5>
+               </div>
+               <div id="postDinner" class="collapse" aria-labelledby="headingPostDinner" data-parent="#accordion">
+                  <div class="card-body">
+                     <div class="form-group">
+                        <label for="post_dinner_mental">Mental Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_dinner_mental" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_dinner_mental')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="post_dinner_emotional">Emotional Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_dinner_emotional" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_dinner_emotional')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="post_dinner_physical">Physical Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_dinner_physical" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_dinner_physical')">🎤</span>
+                        </div>
+                     </div>
+                     <!-- Additional Field -->
+                     <div class="form-group">
+                        <label for="post_dinner_extra">What did I eat:</label>
+                        <div class="input-group">
+                           <input type="text" id="post_dinner_extra" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('post_dinner_extra')">🎤</span>
+                        </div>
+                     </div>
+                     <button class="btn btn-primary mt-3" onclick="submitSection('postDinner')">Save</button>
+                  </div>
+               </div>
+            </div>
+            <!-- Bedtime Section -->
+            <div class="card">
+               <div class="card-header" id="headingBedtime">
+                  <h5 class="mb-0">
+                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#bedtime" aria-expanded="false" aria-controls="bedtime">
+                     Bedtime
+                     </button>
+                  </h5>
+               </div>
+               <div id="bedtime" class="collapse" aria-labelledby="headingBedtime" data-parent="#accordion">
+                  <div class="card-body">
+                     <div class="form-group">
+                        <label for="bedtime_mental">Mental Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="bedtime_mental" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('bedtime_mental')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="bedtime_emotional">Emotional Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="bedtime_emotional" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('bedtime_emotional')">🎤</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="bedtime_physical">Physical Status:</label>
+                        <div class="input-group">
+                           <input type="text" id="bedtime_physical" class="form-control">
+                           <span class="voice-btn" onclick="startDictation('bedtime_physical')">🎤</span>
+                        </div>
+                     </div>
+                     <button class="btn btn-primary mt-3" onclick="submitSection('bedtime')">Save</button>
+                  </div>
+               </div>
+            </div>
+            <!-- Notes & Observations Section -->
+            <div class="card">
+               <div class="card-header" id="headingNotes">
+                  <h5 class="mb-0">
+                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#notes" aria-expanded="false" aria-controls="notes">
+                     Notes & Observations
+                     </button>
+                  </h5>
+               </div>
+               <div id="notes" class="collapse" aria-labelledby="headingNotes" data-parent="#accordion">
+                  <div class="card-body">
+                     <div class="form-group">
+                        <label for="notes_observations">Notes & Observations:</label>
+                        <div class="input-group">
+                           <textarea id="notes_observations" class="form-control"></textarea>
+                           <span class="voice-btn" onclick="startDictation('notes_observations')">🎤</span>
+                        </div>
+                     </div>
+                     <button class="btn btn-primary mt-3" onclick="submitSection('notes')">Save</button>
+                  </div>
+               </div>
+            </div>
+            <!-- Exercise Section -->
+            <div class="card">
+               <div class="card-header" id="headingExercise">
+                  <h5 class="mb-0">
+                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#exercise" aria-expanded="false" aria-controls="exercise">
+                     Exercise
+                     </button>
+                  </h5>
+               </div>
+               <div id="exercise" class="collapse" aria-labelledby="headingExercise" data-parent="#accordion">
+                  <div class="card-body">
+                     <div class="form-group">
+                        <label for="exercise_details">Exercise Details:</label>
+                        <div class="input-group">
+                           <textarea id="exercise_details" class="form-control"></textarea>
+                           <span class="voice-btn" onclick="startDictation('exercise_details')">🎤</span>
+                        </div>
+                     </div>
+                     <button class="btn btn-primary mt-3" onclick="submitSection('exercise')">Save</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Footer -->
+      <footer class="footer">
+         <span>Vitae Cognoscere</span>
+      </footer>
+   </body>
+</html>

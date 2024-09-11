@@ -1,0 +1,237 @@
+/*
+ Author: Malcolm
+*/
+
+@font-face {
+	font-family: 'TopSecret';
+	src: url('/static/fonts/TopSecretStamp.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+body {
+	font-family: 'TopSecret', Poppins, sans-serif;
+	font-weight: 400;
+	font-size: 1.3rem !important;
+	background-color: #f9f9f9 !important;
+	line-height: 1.6;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+
+}
+
+h2 {
+	text-align: center;
+	font-size: 2.4rem;
+	font-weight: 600;
+	color: #333;
+}
+
+
+/* Accordion Container */
+#accordion {
+	background-color: #fff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+
+.navbar {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+.navbar-brand img {
+	margin-left: 10px;
+	/* Optional: Adjust the margin for better spacing */
+}
+
+.navbar-text {
+	margin-right: 10px;
+	/* Optional: Adjust right margin for better spacing */
+}
+
+/* Footer */
+.footer {
+	background-color: #f1f1f1;
+	padding: 20px 0;
+	text-align: center;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 14px;
+	color: #666;
+	margin-top: 40px;
+}
+
+.footer span {
+	color: #333;
+}
+
+/* Icons */
+.card-header .icon {
+	font-size: 1.5rem;
+	color: #333;
+}
+
+
+/* Input group styling */
+.input-group {
+	position: relative;
+}
+
+.btn-link {
+	color: #0b0c0d;
+	font-size: 1.4rem !important;
+}
+
+/* Style for voice button inside input */
+.voice-btn {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+	color: #007bff;
+}
+
+.voice-btn:active {
+	color: #0056b3;
+}
+
+/* Custom class to mark the accordion bar green
+.card-header.done {
+    background-color: #41b658;
+    color: white;
+}
+ */
+
+/* Accordion Item */
+.card {
+	border: none;
+	border-bottom: 1px solid #e7e7e7;
+}
+
+.card-header {
+	background-color: #fff;
+	border-bottom: none;
+	padding: 15px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 8px;
+}
+
+.card-header:hover {
+	background-color: #f1f1f1;
+}
+
+.card-header h5 {
+	margin: 0;
+	font-size: 1.1rem;
+	font-weight: 500;
+}
+
+
+.card-header .icon {
+	font-size: 1.2rem;
+	transition: transform 0.3s ease;
+}
+
+.card-header.active .icon {
+	transform: rotate(180deg);
+}
+
+.collapse.show {
+	border-left: 5px solid #41b658;
+}
+
+.card-body {
+	padding: 20px;
+	background-color: #fafafa;
+	font-size: 0.95rem;
+	border-top: none;
+	transition: height 0.4s ease;
+	border-radius: 8px;
+}
+
+.card-body p {
+	margin: 0;
+}
+
+
+/* Accordion Shadow Effect */
+.card {
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	margin-bottom: 15px;
+	border-radius: 8px;
+}
+
+
+/* Progress Bar */
+.progress {
+	height: 10px;
+	background-color: #e7e7e7;
+	border-radius: 50px;
+	overflow: hidden;
+	margin-bottom: 30px;
+}
+
+.progress-bar {
+
+	transition: width 0.5s ease;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+	.card-header {
+		padding: 12px;
+		font-size: 1rem;
+	}
+
+	.card-body {
+		padding: 15px;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+	}
+}
+
+@media (min-width: 768px) {
+
+	/* For screens wider than 768px (desktop) */
+	.mals {
+		max-width: 300px;
+	}
+}
+
+@media (max-width: 768px) {
+
+	/* For smaller screens like mobile */
+	.mals {
+		width: 100%;
+	}
+}
+
+
+@media (max-width: 576px) {
+	.form-inline .form-control {
+		width: calc(100% - 60px);
+		/* Ensure the input field and button fit */
+		display: inline-block;
+	}
+
+	.form-inline button {
+		width: 50px;
+		display: inline-block;
+	}
+}
