@@ -1,4 +1,4 @@
-# Status Check App
+# Status Check App #SpyTribe
 
 This project is a FastAPI application designed to record and view daily status checks, such as mental, emotional, and physical statuses throughout the day. It stores the data in a CSV file and provides an interface for retrieving and updating records. You can change this to any storage but to it easy I just used file for now.
 
