@@ -4,10 +4,20 @@ This project is a FastAPI application designed to record and view daily status c
 
 ## Features
 
-- **Daily Status Logging**: Users can input their mental, emotional, and physical statuses during the day (Wake-up, Post-breakfast, Post-lunch, Post-dinner, Bedtime).
+- **Daily Status Logging**: Users can input their mental, emotional, and physical statuses during the day (Wake-up, Post-breakfast, Post-lunch, Post-dinner, Bedtime).x
 - **CSV Storage**: Data is stored in a CSV file for persistence.
 - **Jinja2 Templating**: Frontend rendering using Jinja2 for serving HTML templates.
 - **REST API**: Includes endpoints for getting and submitting status data for specific dates.
+
+## Screen Shots
+
+![](https://snipboard.io/eP8LRm.jpg)
+
+------------
+
+![](https://snipboard.io/VWZs2y.jpg)
+
+
 
 ## Requirements
 
