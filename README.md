@@ -4,6 +4,8 @@ This project is a FastAPI application designed to record and view daily status c
 
 I hope other #SpyTibe users find this useful.
 
+I'll be adding Generative AI Reporting in the near future.
+
 ## Features
 
 - **Daily Status Logging**: Users can input their mental, emotional, and physical statuses during the day (Wake-up, Post-breakfast, Post-lunch, Post-dinner, Bedtime).
