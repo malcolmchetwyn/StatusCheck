@@ -88,7 +88,6 @@ function loadData(date) {
             // Update the progress bar
             updateProgressBarFromData();
          } else {
-            alert("No data found for the selected date.");
             clearFields();
             resetProgressBar();
          }
