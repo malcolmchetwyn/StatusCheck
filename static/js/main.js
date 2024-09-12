@@ -1,7 +1,3 @@
-/*
- Author: Malcolm
-*/
-
 // Define the fields for each section
 const sectionFields = {
    wakeUp: ['wake_up_mental', 'wake_up_emotional', 'wake_up_physical'],
@@ -16,13 +12,15 @@ const sectionFields = {
 const sectionIds = Object.keys(sectionFields);
 
 function startDictation(inputId) {
-   if ('webkitSpeechRecognition' in window) {
-      const recognition = new webkitSpeechRecognition();
-
+   // Cross-browser support for SpeechRecognition
+   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+   
+   if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = false;
-
       recognition.lang = 'en-US';
+
       recognition.start();
 
       recognition.onresult = function (event) {
@@ -30,20 +28,23 @@ function startDictation(inputId) {
          recognition.stop();
       };
 
-      recognition.onerror = function () {
+      recognition.onerror = function (event) {
+         console.error("Speech recognition error: ", event.error);
          recognition.stop();
       };
    } else {
-      alert("Speech recognition is not supported in this browser. Please try using Chrome or another supported browser.");
+      alert("Speech recognition is not supported in this browser. Please try using a supported browser like Chrome or Firefox.");
    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-   const today = new Date().toISOString().split('T')[0];
-   document.getElementById('date-picker').value = today; // Set the date picker to today's date
+   // Get the current date in the local timezone
+   const today = new Date().toLocaleDateString('en-CA'); // 'en-CA' formats the date to YYYY-MM-DD
+   document.getElementById('date-picker').value = today; // Set the date picker to today's local date
    document.getElementById('selected-date').innerText = "Today";
    loadData(today); // Load data for today initially
 });
+
 
 function loadDataForDate() {
    const selectedDate = document.getElementById('date-picker').value;
@@ -51,9 +52,11 @@ function loadDataForDate() {
       alert("Please select a date.");
       return;
    }
-   document.getElementById('selected-date').innerText = (selectedDate === new Date().toISOString().split('T')[0]) ? "Today" : selectedDate;
+   const today = new Date().toLocaleDateString('en-CA');
+   document.getElementById('selected-date').innerText = (selectedDate === today) ? "Today" : selectedDate;
    loadData(selectedDate); // Now using the selected date for loading data
 }
+
 
 function loadData(date) {
    if (!date) {
