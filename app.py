@@ -144,21 +144,6 @@ async def submit_status(status: StatusCheck):
 
     return {"message": "Status submitted successfully"}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @app.get("/status/today")
 async def get_today_status():
     today = date.today().isoformat()
