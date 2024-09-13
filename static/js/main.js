@@ -73,7 +73,7 @@ function loadData(date) {
          return response.json();
       })
       .then(data => {
-         console.log("Fetched data for date:", data); // Debugging line
+         ////console.log("Fetched data for date:", data); // Debugging line
 
          // Reset all headers first
          resetAllHeaders();
@@ -179,43 +179,41 @@ function gatherSectionData(sectionId) {
 
 function submitSection(sectionId) {
    const sectionData = gatherSectionData(sectionId);
-   console.log("Section Data being submitted:", sectionData);
+   //console.log("Section Data being submitted:", JSON.stringify(sectionData, null, 2));  // Log the actual data
 
    if (!sectionData) {
-      alert("Please fill in all required fields.");
-      return;
+       alert("Please fill in all required fields.");
+       return;
    }
 
    fetch('/status', {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-         },
-         body: JSON.stringify(sectionData),
-      })
-      .then(response => {
-         if (!response.ok) {
-            throw new Error("Network response was not ok");
-         }
-         return response.json();
-      })
-      .then(data => {
-         console.log("Response from server:", data);
-         if (data.message) {
-            alert(`${sectionId} data saved successfully.`);
-            checkIfSectionCompleted(sectionId);
-
-            // Re-fetch data for the selected date
-            const selectedDate = document.getElementById('date-picker').value;
-            loadData(selectedDate);
-         } else {
-            alert('Failed to save the data.');
-         }
-      })
-      .catch((error) => {
-         console.error('Error:', error);
-         alert('An error occurred. Please try again.');
-      });
+       method: 'POST',
+       headers: {
+           'Content-Type': 'application/json',
+       },
+       body: JSON.stringify(sectionData),
+   })
+   .then(response => {
+       if (!response.ok) {
+           throw new Error("Network response was not ok");
+       }
+       return response.json();
+   })
+   .then(data => {
+       //console.log("Response from server:", data);
+       if (data.message) {
+           alert(`${sectionId} data saved successfully.`);
+           checkIfSectionCompleted(sectionId);
+           const selectedDate = document.getElementById('date-picker').value;
+           loadData(selectedDate);
+       } else {
+           alert('Failed to save the data.');
+       }
+   })
+   .catch((error) => {
+       console.error('Error:', error);
+       alert('An error occurred. Please try again.');
+   });
 }
 
 // Function to check if all fields in a section are completed

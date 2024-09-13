@@ -5,7 +5,6 @@ from pydantic import BaseModel, Field, validator
 from typing import Optional
 from datetime import date
 import sqlite3
-import re
 
 app = FastAPI()
 
@@ -50,37 +49,34 @@ def init_db():
 # Call the function to initialize the database
 init_db()
 
-# Pydantic model for input validation
+# Pydantic model for input validation with optional fields
 class StatusCheck(BaseModel):
     date: str
-    wake_up_mental: Optional[str]
-    wake_up_emotional: Optional[str]
-    wake_up_physical: Optional[str]
-    post_breakfast_mental: Optional[str]
-    post_breakfast_emotional: Optional[str]
-    post_breakfast_physical: Optional[str]
-    post_breakfast_extra: Optional[str]
-    post_lunch_mental: Optional[str]
-    post_lunch_emotional: Optional[str]
-    post_lunch_physical: Optional[str]
-    post_lunch_extra: Optional[str]
-    post_dinner_mental: Optional[str]
-    post_dinner_emotional: Optional[str]
-    post_dinner_physical: Optional[str]
-    post_dinner_extra: Optional[str]
-    bedtime_mental: Optional[str]
-    bedtime_emotional: Optional[str]
-    bedtime_physical: Optional[str]
-    notes_observations: Optional[str]
-    exercise_details: Optional[str]
+    wake_up_mental: Optional[str] = None
+    wake_up_emotional: Optional[str] = None
+    wake_up_physical: Optional[str] = None
+    post_breakfast_mental: Optional[str] = None
+    post_breakfast_emotional: Optional[str] = None
+    post_breakfast_physical: Optional[str] = None
+    post_breakfast_extra: Optional[str] = None
+    post_lunch_mental: Optional[str] = None
+    post_lunch_emotional: Optional[str] = None
+    post_lunch_physical: Optional[str] = None
+    post_lunch_extra: Optional[str] = None
+    post_dinner_mental: Optional[str] = None
+    post_dinner_emotional: Optional[str] = None
+    post_dinner_physical: Optional[str] = None
+    post_dinner_extra: Optional[str] = None
+    bedtime_mental: Optional[str] = None
+    bedtime_emotional: Optional[str] = None
+    bedtime_physical: Optional[str] = None
+    notes_observations: Optional[str] = None
+    exercise_details: Optional[str] = None
 
+    # Validator to replace empty strings with None
     @validator('*', pre=True, always=True)
-    def escape_special_chars(cls, v):
-        if isinstance(v, str):
-            # Escape quotes and handle backslashes to prevent SQL injection and errors
-            # Replace any problematic characters (like pipes, etc.)
-            return re.sub(r"[^a-zA-Z0-9\s,.!?\-]", "", v)
-        return v
+    def set_empty_string_to_none(cls, v):
+        return v or None
 
 # Static files configuration (Optional)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -166,17 +162,20 @@ def upsert_status(status: StatusCheck):
     conn.commit()
     conn.close()
 
+# POST endpoint to submit a new status
 @app.post("/status")
 async def submit_status(status: StatusCheck):
     upsert_status(status)
     return {"message": "Status submitted successfully"}
 
+# GET endpoint to fetch today's status
 @app.get("/status/today")
 async def get_today_status():
     today = date.today().isoformat()
     record = get_status_by_date(today)
     return record or {}
 
+# GET endpoint to fetch status by a specific date
 @app.get("/status/{date}")
 async def get_status_for_date(date: str):
     record = get_status_by_date(date)
