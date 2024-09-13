@@ -53,26 +53,26 @@ init_db()
 # Pydantic model for input validation
 class StatusCheck(BaseModel):
     date: str
-    wake_up_mental: Optional[str] = Field(None, max_length=2000)
-    wake_up_emotional: Optional[str] = Field(None, max_length=2000)
-    wake_up_physical: Optional[str] = Field(None, max_length=2000)
-    post_breakfast_mental: Optional[str] = Field(None, max_length=2000)
-    post_breakfast_emotional: Optional[str] = Field(None, max_length=2000)
-    post_breakfast_physical: Optional[str] = Field(None, max_length=2000)
-    post_breakfast_extra: Optional[str] = Field(None, max_length=2000)
-    post_lunch_mental: Optional[str] = Field(None, max_length=2000)
-    post_lunch_emotional: Optional[str] = Field(None, max_length=2000)
-    post_lunch_physical: Optional[str] = Field(None, max_length=2000)
-    post_lunch_extra: Optional[str] = Field(None, max_length=2000)
-    post_dinner_mental: Optional[str] = Field(None, max_length=2000)
-    post_dinner_emotional: Optional[str] = Field(None, max_length=2000)
-    post_dinner_physical: Optional[str] = Field(None, max_length=2000)
-    post_dinner_extra: Optional[str] = Field(None, max_length=2000)
-    bedtime_mental: Optional[str] = Field(None, max_length=2000)
-    bedtime_emotional: Optional[str] = Field(None, max_length=2000)
-    bedtime_physical: Optional[str] = Field(None, max_length=2000)
-    notes_observations: Optional[str] = Field(None, max_length=500)
-    exercise_details: Optional[str] = Field(None, max_length=500)
+    wake_up_mental: Optional[str]
+    wake_up_emotional: Optional[str]
+    wake_up_physical: Optional[str]
+    post_breakfast_mental: Optional[str]
+    post_breakfast_emotional: Optional[str]
+    post_breakfast_physical: Optional[str]
+    post_breakfast_extra: Optional[str]
+    post_lunch_mental: Optional[str]
+    post_lunch_emotional: Optional[str]
+    post_lunch_physical: Optional[str]
+    post_lunch_extra: Optional[str]
+    post_dinner_mental: Optional[str]
+    post_dinner_emotional: Optional[str]
+    post_dinner_physical: Optional[str]
+    post_dinner_extra: Optional[str]
+    bedtime_mental: Optional[str]
+    bedtime_emotional: Optional[str]
+    bedtime_physical: Optional[str]
+    notes_observations: Optional[str]
+    exercise_details: Optional[str]
 
     @validator('*', pre=True, always=True)
     def escape_special_chars(cls, v):
