@@ -2,19 +2,54 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional
 from datetime import date
-import csv
-import os
+import sqlite3
 
 app = FastAPI()
 
-# Path to store the CSV file
-csv_file = "status_checks.csv"
+# Database file path
+db_file = "status_checks.db"
 
 # Setup Jinja2 templates
 templates = Jinja2Templates(directory="templates")
 
+# Initialize SQLite database and create table if it doesn't exist
+def init_db():
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS status_checks (
+            date TEXT PRIMARY KEY,
+            wake_up_mental TEXT,
+            wake_up_emotional TEXT,
+            wake_up_physical TEXT,
+            post_breakfast_mental TEXT,
+            post_breakfast_emotional TEXT,
+            post_breakfast_physical TEXT,
+            post_breakfast_extra TEXT,
+            post_lunch_mental TEXT,
+            post_lunch_emotional TEXT,
+            post_lunch_physical TEXT,
+            post_lunch_extra TEXT,
+            post_dinner_mental TEXT,
+            post_dinner_emotional TEXT,
+            post_dinner_physical TEXT,
+            post_dinner_extra TEXT,
+            bedtime_mental TEXT,
+            bedtime_emotional TEXT,
+            bedtime_physical TEXT,
+            notes_observations TEXT,
+            exercise_details TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Call the function to initialize the database
+init_db()
+
+# Pydantic model for input validation
 class StatusCheck(BaseModel):
     date: str
     wake_up_mental: Optional[str] = Field(None, max_length=100)
@@ -23,15 +58,15 @@ class StatusCheck(BaseModel):
     post_breakfast_mental: Optional[str] = Field(None, max_length=100)
     post_breakfast_emotional: Optional[str] = Field(None, max_length=100)
     post_breakfast_physical: Optional[str] = Field(None, max_length=100)
-    post_breakfast_extra: Optional[str] = Field(None, max_length=100)  # New field
+    post_breakfast_extra: Optional[str] = Field(None, max_length=100)
     post_lunch_mental: Optional[str] = Field(None, max_length=100)
     post_lunch_emotional: Optional[str] = Field(None, max_length=100)
     post_lunch_physical: Optional[str] = Field(None, max_length=100)
-    post_lunch_extra: Optional[str] = Field(None, max_length=100)  # New field
+    post_lunch_extra: Optional[str] = Field(None, max_length=100)
     post_dinner_mental: Optional[str] = Field(None, max_length=100)
     post_dinner_emotional: Optional[str] = Field(None, max_length=100)
     post_dinner_physical: Optional[str] = Field(None, max_length=100)
-    post_dinner_extra: Optional[str] = Field(None, max_length=100)  # New field
+    post_dinner_extra: Optional[str] = Field(None, max_length=100)
     bedtime_mental: Optional[str] = Field(None, max_length=100)
     bedtime_emotional: Optional[str] = Field(None, max_length=100)
     bedtime_physical: Optional[str] = Field(None, max_length=100)
@@ -47,49 +82,93 @@ async def get_status_page(request: Request):
     today = date.today().isoformat()
     return templates.TemplateResponse("statuscheck.html", {"request": request, "date": today})
 
-# Utility function to read CSV data
-def read_csv_data() -> List[dict]:
-    if not os.path.exists(csv_file):
-        return []
-    with open(csv_file, mode='r', newline='') as file:
-        reader = csv.DictReader(file)
-        return list(reader)
+# Utility function to fetch status by date
+def get_status_by_date(record_date: str):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM status_checks WHERE date = ?", (record_date,))
+    record = cursor.fetchone()
+    conn.close()
 
-# Utility function to write CSV data
-def write_csv_data(records: List[dict]):
-    with open(csv_file, mode='w', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=records[0].keys())
-        writer.writeheader()
-        writer.writerows(records)
+    if record:
+        # Map the results into a dictionary
+        fields = ['date', 'wake_up_mental', 'wake_up_emotional', 'wake_up_physical',
+                  'post_breakfast_mental', 'post_breakfast_emotional', 'post_breakfast_physical', 'post_breakfast_extra',
+                  'post_lunch_mental', 'post_lunch_emotional', 'post_lunch_physical', 'post_lunch_extra',
+                  'post_dinner_mental', 'post_dinner_emotional', 'post_dinner_physical', 'post_dinner_extra',
+                  'bedtime_mental', 'bedtime_emotional', 'bedtime_physical', 'notes_observations', 'exercise_details']
+        return dict(zip(fields, record))
+    return None
 
-# Utility function to find a record by date
-def find_record_by_date(records: List[dict], record_date: str):
-    return next((record for record in records if record["date"] == record_date), None)
+# Utility function to add or update a status in the database
+def upsert_status(status: StatusCheck):
+    # Retrieve existing data for the given date
+    existing_record = get_status_by_date(status.date)
+    
+    # Merge with existing data if available
+    if existing_record:
+        updated_record = {**existing_record, **status.dict(exclude_unset=True)}
+    else:
+        updated_record = status.dict(exclude_unset=True)
+    
+    # Insert or update the record in the database
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO status_checks (
+            date, wake_up_mental, wake_up_emotional, wake_up_physical, 
+            post_breakfast_mental, post_breakfast_emotional, post_breakfast_physical, post_breakfast_extra,
+            post_lunch_mental, post_lunch_emotional, post_lunch_physical, post_lunch_extra,
+            post_dinner_mental, post_dinner_emotional, post_dinner_physical, post_dinner_extra,
+            bedtime_mental, bedtime_emotional, bedtime_physical,
+            notes_observations, exercise_details
+        ) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(date) DO UPDATE SET
+            wake_up_mental=excluded.wake_up_mental,
+            wake_up_emotional=excluded.wake_up_emotional,
+            wake_up_physical=excluded.wake_up_physical,
+            post_breakfast_mental=excluded.post_breakfast_mental,
+            post_breakfast_emotional=excluded.post_breakfast_emotional,
+            post_breakfast_physical=excluded.post_breakfast_physical,
+            post_breakfast_extra=excluded.post_breakfast_extra,
+            post_lunch_mental=excluded.post_lunch_mental,
+            post_lunch_emotional=excluded.post_lunch_emotional,
+            post_lunch_physical=excluded.post_lunch_physical,
+            post_lunch_extra=excluded.post_lunch_extra,
+            post_dinner_mental=excluded.post_dinner_mental,
+            post_dinner_emotional=excluded.post_dinner_emotional,
+            post_dinner_physical=excluded.post_dinner_physical,
+            post_dinner_extra=excluded.post_dinner_extra,
+            bedtime_mental=excluded.bedtime_mental,
+            bedtime_emotional=excluded.bedtime_emotional,
+            bedtime_physical=excluded.bedtime_physical,
+            notes_observations=excluded.notes_observations,
+            exercise_details=excluded.exercise_details
+    ''', (
+        updated_record['date'], updated_record.get('wake_up_mental'), updated_record.get('wake_up_emotional'), updated_record.get('wake_up_physical'),
+        updated_record.get('post_breakfast_mental'), updated_record.get('post_breakfast_emotional'), updated_record.get('post_breakfast_physical'), updated_record.get('post_breakfast_extra'),
+        updated_record.get('post_lunch_mental'), updated_record.get('post_lunch_emotional'), updated_record.get('post_lunch_physical'), updated_record.get('post_lunch_extra'),
+        updated_record.get('post_dinner_mental'), updated_record.get('post_dinner_emotional'), updated_record.get('post_dinner_physical'), updated_record.get('post_dinner_extra'),
+        updated_record.get('bedtime_mental'), updated_record.get('bedtime_emotional'), updated_record.get('bedtime_physical'),
+        updated_record.get('notes_observations'), updated_record.get('exercise_details')
+    ))
+    
+    conn.commit()
+    conn.close()
 
 @app.post("/status")
 async def submit_status(status: StatusCheck):
-    records = read_csv_data()
-
-    # Check if a record exists for the provided date and update it
-    record = find_record_by_date(records, status.date)
-    if record:
-        record.update(status.dict(exclude_unset=True))  # Update only the fields that are set
-    else:
-        records.append(status.dict())
-
-    # Write the updated records back to the CSV file
-    write_csv_data(records)
+    upsert_status(status)
     return {"message": "Status submitted successfully"}
 
 @app.get("/status/today")
 async def get_today_status():
     today = date.today().isoformat()
-    records = read_csv_data()
-    record = find_record_by_date(records, today)
+    record = get_status_by_date(today)
     return record or {}  # Return today's data if it exists, else empty
 
 @app.get("/status/{date}")
 async def get_status_for_date(date: str):
-    records = read_csv_data()
-    record = find_record_by_date(records, date)
+    record = get_status_by_date(date)
     return record or {}  # Return data for the requested date, or empty if not found
