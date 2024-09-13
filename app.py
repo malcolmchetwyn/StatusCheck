@@ -1,10 +1,11 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing import Optional
 from datetime import date
 import sqlite3
+import re
 
 app = FastAPI()
 
@@ -72,6 +73,14 @@ class StatusCheck(BaseModel):
     bedtime_physical: Optional[str] = Field(None, max_length=100)
     notes_observations: Optional[str] = Field(None, max_length=500)
     exercise_details: Optional[str] = Field(None, max_length=500)
+
+    @validator('*', pre=True, always=True)
+    def escape_special_chars(cls, v):
+        if isinstance(v, str):
+            # Escape quotes and handle backslashes to prevent SQL injection and errors
+            # Replace any problematic characters (like pipes, etc.)
+            return re.sub(r"[^a-zA-Z0-9\s,.!?\-]", "", v)
+        return v
 
 # Static files configuration (Optional)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -166,9 +175,9 @@ async def submit_status(status: StatusCheck):
 async def get_today_status():
     today = date.today().isoformat()
     record = get_status_by_date(today)
-    return record or {}  # Return today's data if it exists, else empty
+    return record or {}
 
 @app.get("/status/{date}")
 async def get_status_for_date(date: str):
     record = get_status_by_date(date)
-    return record or {}  # Return data for the requested date, or empty if not found
+    return record or {}
