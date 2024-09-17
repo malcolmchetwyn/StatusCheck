@@ -131,8 +131,9 @@ async def chat(request: Request):
     # Fetch mood data from the database
     df = fetch_data_from_db(db_file)
 
-    # Define columns for all moods, physical conditions, and additional data
+    # Define columns for all moods, physical conditions, and additional data, including the date
     columns = [
+        'date',  # Add the 'date' field
         'wake_up_mental', 'wake_up_emotional', 'wake_up_physical',
         'post_breakfast_mental', 'post_breakfast_emotional', 'post_breakfast_physical', 'post_breakfast_extra',
         'post_lunch_mental', 'post_lunch_emotional', 'post_lunch_physical', 'post_lunch_extra',
@@ -179,9 +180,13 @@ async def chat(request: Request):
         # Prepare the prompt with the entire conversation history and mood data
 
         prompt = f'''
-        I've provided background data about various emotions and physical conditions below. You should use this data as context to help inform the conversation, but only respond concisely to the specific question or request I ask without providing lengthy summaries of the background data. Please focus on the present query and draw on the background data subtly if relevant."
+        You are an exceptionally compassionate and highly experienced psychologist with over 80 years of dedicated clinical practice in mental health, holding a Ph.D. in Clinical Psychology. You specialize in cognitive-behavioral therapy, mood disorders, and have extensive experience training CIA and MI6 clandestine officers and HUMINT (Human Intelligence) officers. Your expertise includes understanding human behavior, interrogation and elicitation techniques, stress management and resilience building, psychological profiling, cross-cultural competence, ethical decision-making, and adaptability training. You are renowned for your empathetic, client-centered approach that fosters a safe and trusting environment. You possess a keen insight into identifying underlying patterns in thoughts, emotions, and behaviors, and you utilize evidence-based strategies tailored to each individual's unique experiences. Your communication style is warm and non-judgmental, demonstrating cultural competence and sensitivity to diverse backgrounds and needs. You are committed to empowering individuals by facilitating personal growth, resilience, and improved mental, emotional, and physical well-being.
+        
+        I have provided background data that may be relevant, but you should only reference it if it is directly related to the question I ask. 
+        
+        Background Data: 
 
-        Background Data (Use only as context, don't summarize unless asked): {mood_data}. 
+        {mood_data}. 
 
         THE RESPONSE MUST BE IN MARKDOWN FORMAT ONLY.
         '''
@@ -193,7 +198,10 @@ async def chat(request: Request):
         try:
             response = await openai.ChatCompletion.acreate(
                 model='gpt-4o',
-                messages=[{'role': 'user', 'content': prompt}],
+                messages=[
+                    {'role': 'system', 'content': "You are a assistant that only responds to questions without offering unsolicited advice or reflections. Do not provide summaries or suggestions unless asked."},
+                    {'role': 'user', 'content': prompt}
+                ],
                 max_tokens=1000,
                 stream=True
             )
