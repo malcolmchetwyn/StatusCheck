@@ -1,0 +1,173 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #f4f4f4;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer span {
+    font-weight: bold;
+    font-style: italic;
+}
+
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+#chat {
+    display: flex; /* Add this */
+    flex-direction: column; /* Keep this to ensure proper stacking */
+    justify-content: flex-start; /* Add this */
+    align-items: flex-start; /* Aligns AI to the left, user messages will override */
+    width: 100%;
+    max-width: 1200px;
+    height: 70vh;
+    margin: 20px auto;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+#chat p {
+    font-size: 0.9em;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+#input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#message {
+    width: 80%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 16px;
+    outline: none;
+}
+
+#sendButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+#sendButton:hover {
+    background-color: #0056b3;
+}
+
+/* AI Assistant Message */
+.ai {
+    background-color: #dfe9ff;
+    align-self: flex-start; /* Align AI messages to the left */
+    padding: 12px;
+    border-radius: 15px;
+    max-width: 80%;
+    font-size: 0.9em;
+    line-height: 1.5;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.user {
+    background-color: #f1f1f1;
+    align-self: flex-end !important; /* Enforces alignment to the right */
+    text-align: right;
+    padding: 12px;
+    border-radius: 15px;
+    max-width: 70%;
+    font-size: 1em;
+    line-height: 1.5;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+.user .label {
+    text-align: right; /* Align the label to the right */
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+#chat-container #chat .user p {
+    text-align: right;
+}
+
+@media screen and (max-width: 768px) {
+    #message {
+        width: 65%;
+    }
+
+    #chat {
+        width: 100%;
+        height: 60vh;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #message {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #chat-container {
+        padding: 0;
+    }
+
+    #chat {
+        width: 100%;
+        height: 50vh;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    #input-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    #sendButton {
+        width: 100%;
+        margin: 0;
+    }
+}
