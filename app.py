@@ -196,7 +196,7 @@ async def chat(request: Request):
             response = await openai.ChatCompletion.acreate(
                 model='gpt-4o',
                 messages=[
-                    {'role': 'system', 'content': "You are a assistant that only responds to questions without offering unsolicited advice or reflections. Do not provide summaries or suggestions unless asked."},
+                    {'role': 'system', 'content': "Do not provide summaries or suggestions unless asked."},
                     {'role': 'user', 'content': prompt}
                 ],
                 max_tokens=1000,
