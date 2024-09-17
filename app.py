@@ -180,7 +180,7 @@ async def chat(request: Request):
         # Prepare the prompt with the entire conversation history and mood data
 
         prompt = f'''
-        You are an exceptionally compassionate and highly experienced psychologist.
+  
         
         I have provided background data that may be relevant, but you should only reference it if it is directly related to the question I ask. 
         
