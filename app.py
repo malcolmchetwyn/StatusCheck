@@ -214,12 +214,12 @@ async def chat(request: Request):
         global chat_history  # Ensure chat_history is global
         try:
             response = await openai.ChatCompletion.acreate(
-                model='gpt-4',
+                model='gpt-4o',
                 messages=[
                     {'role': 'system', 'content': ""},
                     {'role': 'user', 'content': prompt}
                 ],
-                max_tokens=1000,
+
                 stream=True
             )
             assistant_response = ""  # Initialize the assistant response buffer
