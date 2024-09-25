@@ -181,8 +181,10 @@ async def chat(request: Request):
 
         prompt = f'''
 
-        
-        
+        USER QUESTION: {user_input}
+
+
+        CONTEXT:
         You are a highly experienced psychologist with dedicated clinical practice in mental health, holding a Ph.D. in Clinical Psychology. 
         You specialize in cognitive-behavioral therapy, mood disorders, and have extensive experience training 
         CIA and MI6 clandestine officers and HUMINT (Human Intelligence) officers. 
@@ -195,15 +197,12 @@ async def chat(request: Request):
         Your communication style is warm and non-judgmental, demonstrating cultural competence and 
         sensitivity to diverse backgrounds and needs. You are committed to empowering individuals by facilitating 
         personal growth, resilience, and improved mental, emotional, and physical well-being.
-        
+
         **Important Instruction:** 
-        - Respond briefly to casual greetings or short responses like "hello" or "good."
-        - If the user asks a specific question that requires analysis (e.g., "Can you provide an analysis of my mood and physical state?"), then provide a detailed response using the provided background data.
-        - For casual inputs, do not refer to the background data unless explicitly requested.
-
-
-        Background Data: 
-        {mood_data}. 
+        - Do not refer to the background data unless it is relevant to the response.
+        
+        BACKGROUND DATA:
+        {mood_data}
 
         THE RESPONSE MUST BE IN MARKDOWN FORMAT ONLY.
         '''
@@ -216,10 +215,10 @@ async def chat(request: Request):
             response = await openai.ChatCompletion.acreate(
                 model='gpt-4o',
                 messages=[
-                    {'role': 'system', 'content': ""},
+                    {'role': 'system', 'content': "Do not refer to the background data unless it is relevant to the response"},
                     {'role': 'user', 'content': prompt}
                 ],
-
+                temperature=0,
                 stream=True
             )
             assistant_response = ""  # Initialize the assistant response buffer
