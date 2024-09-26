@@ -215,7 +215,7 @@ async def chat(request: Request):
             response = await openai.ChatCompletion.acreate(
                 model='gpt-4o',
                 messages=[
-                    {'role': 'system', 'content': "Do not refer to the background data unless it is relevant to the response"},
+                    {'role': 'system', 'content': "Do not refer to the background data unless it is relevant to the response. If it is relevant tot he response us it in relation to the question. Do not just give a summary."},
                     {'role': 'user', 'content': prompt}
                 ],
                 temperature=0,
