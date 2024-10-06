@@ -16,6 +16,7 @@ Note: I'm not an employee of EverydaySpy. Just someone doing the course and need
 - **CSV Storage**: Data is stored in a CSV file for persistence.
 - **Jinja2 Templating**: Frontend rendering using Jinja2 for serving HTML templates.
 - **REST API**: Includes endpoints for getting and submitting status data for specific dates.
+- **Generative AI**: Includes Generative AI allowing you to talk to all your data. Just put your OpenAI API key in the .env file.
 
 ## Screen Shots
 
