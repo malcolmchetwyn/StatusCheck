@@ -1,4 +1,4 @@
-# Status Check App for OpTink Course
+# Status Check App for OpThink Course
 
 This project is a FastAPI application designed to record and view daily status checks, such as mental, emotional, and physical statuses throughout the day. It stores the data in SQLite and provides an interface for retrieving and updating records. You can change this to any storage, but to keep it simple, I just used file storage for now.
 
