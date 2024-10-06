@@ -9,9 +9,13 @@ Built for users of the [OpThink Course](https://new.everydayspy.com/think2 "OpTh
 ## Key Features
 
 - **Daily Well-Being Logging**: Track mental, emotional, and physical statuses at different times of the day.
-- **AI-Powered Reports**: Use OpenAI API to generate insightful summaries of your data.
+- **AI-Powered Reports**: Use [OpenAI API](https://openai.com/api) to generate insightful summaries of your data.
 - **REST API & CSV Storage**: Store data locally with easy API access for managing entries.
-- **FastAPI & Jinja2**: Clean, fast web interface for displaying and managing status data.
+- **FastAPI & Jinja2**: Built using [FastAPI](https://fastapi.tiangolo.com) for fast, scalable web applications and [Jinja2](https://palletsprojects.com/p/jinja/) for templating.
+
+## Additional Resources
+
+For more information on mental health, visit the [World Health Organization – Mental Health](https://www.who.int/health-topics/mental-health).
 
 ![](https://snipboard.io/eP8LRm.jpg)
 
