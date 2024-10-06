@@ -17,7 +17,7 @@ Built for users of the [OpThink Course](https://new.everydayspy.com/think2 "OpTh
 
 For more information on mental health, visit the [World Health Organization – Mental Health](https://www.who.int/health-topics/mental-health).
 
-## StatusCheck Daily Entries
+## Status Check Daily Entries
 
 ![](https://snipboard.io/eP8LRm.jpg)
 
