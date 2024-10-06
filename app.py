@@ -142,8 +142,8 @@ async def chat(request: Request):
         'notes_observations', 'exercise_details'
     ]
 
-    # Concatenate all the data into a single string, separating different records by a newline
-    mood_data = df[columns].fillna('').apply(lambda x: ' | '.join(x), axis=1).str.cat(sep='\n')
+    mood_data = df[columns].fillna('').apply(lambda x: ' | '.join(x), axis=1)
+    mood_data = mood_data.str.cat(sep='\n')
 
     # Append the current user input to the chat history
     chat_history.append({"role": "user", "content": user_input})
