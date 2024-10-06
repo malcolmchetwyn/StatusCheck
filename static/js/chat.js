@@ -20,7 +20,7 @@ async function sendMessage() {
     // Prepare AI response container on the left
     const aiMessageDiv = document.createElement('div');
     aiMessageDiv.className = 'message ai';
-    aiMessageDiv.innerHTML = '<strong>MindLens:</strong> <em>Typing...</em>';
+    aiMessageDiv.innerHTML = '<strong>Shadow Analyst:</strong> <em>Typing...</em>';
     chatBox.appendChild(aiMessageDiv);
 
     // Scroll to the bottom
@@ -59,13 +59,13 @@ async function sendMessage() {
             const html = DOMPurify.sanitize(marked.parse(aiResponseBuffer));
 
             // Update the AI message div's innerHTML with sanitized HTML
-            aiMessageDiv.innerHTML = '<strong>MindLens:</strong> ' + html;
+            aiMessageDiv.innerHTML = '<strong>Shadow Analyst:</strong> ' + html;
 
             // Scroll to the bottom as new content arrives
             chatBox.scrollTop = chatBox.scrollHeight;
         }
     } catch (error) {
-        aiMessageDiv.innerHTML = '<strong>MindLens:</strong> [Error] ' + error.message;
+        aiMessageDiv.innerHTML = '<strong>Shadow Analyst:</strong> [Error] ' + error.message;
     }
 }
 
