@@ -27,8 +27,3 @@ To get started, install the following:
 
 ```bash
 pip install fastapi uvicorn jinja2
-
-### What was changed for SEO optimization:
-1. **Keywords Added**: "AI-powered," "mental health tracker," "daily well-being logging," and "Generative AI."
-2. **Headline Optimization**: Clearer title that incorporates both AI and well-being tracking.
-3. **Text Focus**: Ensured all descriptions are keyword-rich without being too dense, keeping it user-friendly and search-engine friendly.
