@@ -1,14 +1,14 @@
 # Status Check App #SpyTribe
 
-This project is a FastAPI application designed to record and view daily status checks, such as mental, emotional, and physical statuses throughout the day. It stores the data in a SQLLite and provides an interface for retrieving and updating records. You can change this to any storage but to it easy I just used file for now.
+This project is a FastAPI application designed to record and view daily status checks, such as mental, emotional, and physical statuses throughout the day. It stores the data in SQLite and provides an interface for retrieving and updating records. You can change this to any storage, but to keep it simple, I just used file storage for now.
 
 I hope other **#SpyTribe** users find this useful.
 
-**I've added Generative AI Reporting.** Type in "status report" to get a comprehensive report of all your entires automatically.
+**I've added Generative AI Reporting.** Type in "status report" to get a comprehensive report of all your entries automatically.
 
-Links to Andys webiste [here](https://everydayspy.com/about-andrew/ "here")
+Links to Andy's website [here](https://everydayspy.com/about-andrew/ "here").
 
-Note: I'm not an emmployee of EerydaySpy. Just someone doing the course and needed this tool for myself during the [OpThink Course](https://new.everydayspy.com/think2 "OpThink Course"). I needed something simple to use whilst on the go. Plus I needed a way to summarise the unstrcutred content easliy so I integrated Generative AI.
+Note: I'm not an employee of EverydaySpy. Just someone doing the course and needed this tool for myself during the [OpThink Course](https://new.everydayspy.com/think2 "OpThink Course"). I needed something simple to use while on the go. Plus, I needed a way to summarize the unstructured content easily, so I integrated Generative AI.
 
 ## Features
 
