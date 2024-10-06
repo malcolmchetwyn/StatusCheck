@@ -4,7 +4,7 @@ StatusCheck is an AI-driven FastAPI application that helps you track and monitor
 
 Perfect for those in the **#SpyTribe**, it features **Generative AI Reporting** for automatic insights—just type "status report" for a detailed summary of your day.
 
-Built for users of the [OpThink Course](https://new.everydayspy.com/think2 "OpThink Course"), this unofficial StatusCheck OpThink tool offers a quick, mobile-friendly way to track your well-being while integrating AI to summarize unstructured content. You can Andy's EverydaySpy website [here](https://everydayspy.com "here").
+Built for users of the [OpThink Course](https://new.everydayspy.com/think2 "OpThink Course"), this unofficial StatusCheck OpThink tool offers a quick, mobile-friendly way to track your well-being while integrating AI to summarize unstructured content. EverydaySpy website [here](https://everydayspy.com "here").
 
 ## Key Features
 
